@@ -6,7 +6,7 @@ package main
 
 // 此工具用来发送IOU和ICC
 // 使用如下：
-// ./tx -logtostderr=true -sender=iN8sGowQCg1qptWcJG1WyTmymKX7y9cpmr -secret=ss1TCkz333t3t2J5eobcEMkMY4bXk -recipient=iwsZ7gxHFzu2xbj8YMf4UvK1PrDEMuxGkf -currency=ICC -amount=123.456
+// ./tx -sender=iN8sGowQCg1qptWcJG1WyTmymKX7y9cpmr -secret=ss1TCkz333t3t2J5eobcEMkMY3bXk -recipient=iwsZ7gxHFzu2xbj8YMf4UvK1PrDEMuxGkf -currency=ICC -amount=123.456
 
 import (
 	"errors"
@@ -30,22 +30,28 @@ var amount = flag.Float64("amount", 0.0, "数额 比如: 123.456")
 
 // var invoiceID = flag.String("invoiceID", "", "用于标识此次交易")
 
+func usage() {
+	println("使用如下:\n\t./tx -sender=iN8sGowQCg1qptWcJG1WyTmymKX7y9cpmr -secret=ss1TCkz333t3t2J5eobcEMkMY4bXk -recipient=iwsZ7gxHFzu2xbj8YMf4UvK1PrDEMuxGkf -currency=ICC -amount=123.456\n")
+	flag.Usage()
+}
+
 func main() {
 	flag.Parse()
+	glog.SetLogToStderr(true)
 	if *server == "" {
-		flag.Usage()
+		usage()
 		return
 	}
 	if *sender == "" || len(*sender) != 34 || (*sender)[0] != 'i' {
-		flag.Usage()
+		usage()
 		return
 	}
 	if *secret == "" || len(*secret) != 29 || (*secret)[0] != 's' {
-		flag.Usage()
+		usage()
 		return
 	}
 	if *recipient == "" || len(*recipient) != 34 || (*recipient)[0] != 'i' {
-		flag.Usage()
+		usage()
 		return
 	}
 	if *amount <= 0 {
